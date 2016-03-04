@@ -1,6 +1,6 @@
-﻿namespace FSharpFilePathUtils
+﻿namespace FSharpUtil
 
-module Utils =
+module FilePath =
     open System.IO
     open Fake.FileUtils
     open System
