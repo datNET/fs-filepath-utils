@@ -5,7 +5,7 @@
 open Fake
 open NuGetHelper
 open RestorePackageHelper
-open FSharpVersionUtils.Fake.Config
+open FSharpUtils.Fake.Config
 
 Target "RestorePackages" (fun _ ->
   Source.SolutionFile
