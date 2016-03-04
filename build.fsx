@@ -34,7 +34,7 @@ Target "Clean" (fun _ ->
   DeleteFiles Build.MSBuildArtifacts
 )
 
-"MSBuild" <== [ "Clean"; "RestorePackages"; ]
-"Test"    <== [ "MSBuild"; ]
+"MSBuild" <== [ "Clean"; "RestorePackages" ]
+"Test"    <== [ "MSBuild" ]
 
 RunTargetOrDefault "MSBuild"
