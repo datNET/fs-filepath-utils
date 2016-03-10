@@ -21,6 +21,8 @@ Target "MSBuild" (fun _ ->
   Source.SolutionFile
     |> MSBuildRelease null "Build"
     |> ignore
+
+  Copy Release.WorkingDir Release.Items
 )
 
 Target "Test" (fun _ ->
@@ -32,9 +34,30 @@ Target "Test" (fun _ ->
 
 Target "Clean" (fun _ ->
   DeleteFiles Build.MSBuildArtifacts
+  CleanDir Release.WorkingDir
 )
 
-"MSBuild" <== [ "Clean"; "RestorePackages" ]
-"Test"    <== [ "MSBuild" ]
+Target "CreateNugetPackageDirPath" (fun _ ->
+  CreateDir Nuget.PackageDirName
+)
+
+Target "PackageAndPublish" (fun _ ->
+  Release.Nuspec
+    |> NuGet (fun p ->
+        { p with
+            Version     = Release.Version
+            Project     = Release.Project
+            Authors     = Release.Authors
+            Description = Release.Description
+            OutputPath  = Release.OutputPath
+            WorkingDir  = Release.WorkingDir
+            Publish     = true
+            AccessKey   = Nuget.ApiKey
+        })
+)
+
+"MSBuild"           <== [ "Clean"; "RestorePackages" ]
+"Test"              <== [ "MSBuild" ]
+"PackageAndPublish" <== [ "MSBuild"; "CreateNugetPackageDirPath" ]
 
 RunTargetOrDefault "MSBuild"
