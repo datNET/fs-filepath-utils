@@ -1,4 +1,5 @@
 #r @"./._fake/packages/FAKE/tools/FakeLib.dll"
+#r @"./._fake/packages/FSharp.FakeTargets/tools/FSharpFakeTargets.dll"
 
 #load @"./._fake/loader.fsx"
 
@@ -6,6 +7,8 @@ open Fake
 open NuGetHelper
 open RestorePackageHelper
 open FSharpUtils.Fake.Config
+
+DatNET.Targets.Initialize id
 
 Target "RestorePackages" (fun _ ->
   Source.SolutionFile
@@ -17,24 +20,11 @@ Target "RestorePackages" (fun _ ->
           Retries = 4 })
 )
 
-Target "MSBuild" (fun _ ->
-  Source.SolutionFile
-    |> MSBuildRelease null "Build"
-    |> ignore
-
-  Copy Release.WorkingDir Release.Items
-)
-
 Target "Test" (fun _ ->
   let setParams = (fun p ->
     { p with DisableShadowCopy = true; ErrorLevel = DontFailBuild; Framework = Build.DotNetVersion; })
 
   Build.TestAssemblies |> NUnit setParams
-)
-
-Target "Clean" (fun _ ->
-  DeleteFiles Build.MSBuildArtifacts
-  CleanDir Release.WorkingDir
 )
 
 Target "CreateNugetPackageDirPath" (fun _ ->
