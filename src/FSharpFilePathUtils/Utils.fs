@@ -1,4 +1,4 @@
-﻿namespace FSharpUtil
+﻿namespace datNET
 
 module FilePath =
     open System.IO
