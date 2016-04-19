@@ -1,4 +1,4 @@
-namespace FSharpUtils.Fake.Config
+namespace datNET.Fake.Config
 
 #r @"./packages/FAKE/tools/FakeLib.dll"
 
