@@ -28,7 +28,6 @@ module Release =
   let Items = !! "**/bin/Release/FSharpFilePathUtils.dll"
   let Nuspec = "FSharpFilepathUtils.nuspec"
 
-  let Version = "0.1.0"
   let Project = "FSharp.FilePath.Utils"
   let Authors = [ "Andrew Seward"; "Mathew Glodack" ]
   let Description = "Filepath manipulation utilities"
